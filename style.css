@@ -88,3 +88,6 @@ body {
     font-size: 20px;
 }
 
+i {
+    cursor: pointer;
+}

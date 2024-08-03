@@ -1,185 +1,92 @@
-// let shop = document.getElementById('shop');
+const shop = document.getElementById('shop');
 
-// let shopItemData = [
-//     {
-//         id : '1',
-//         name : 'Regular Fit Linen-blend shirt',
-//         price : '1,999.00',
-//         desc : 'White/Striped',
-//         img : '/assets/hmgoepprod.jfif',
-//     },
-
-//     {
-//         id : '2',
-//         name : 'Baggy Jeans',
-//         price : '2,699.00',
-//         desc : 'Light grey',
-//         img : '/assets/BaggyJeans.jfif',
-//     },
-
-//     {
-//         id : '3',
-//         name : 'Loose Fit Sweatshirt',
-//         price : '479.00',
-//         desc : 'Light grey',
-//         img : '/assets/LooseFitSweatshirt.jfif',
-//     },
-
-//     {
-//         id : '4',
-//         name : 'Loose Fit Printed T-shirt',
-//         price : '1,499.00',
-//         desc : 'Turquoise/Rick and Morty',
-//         img : '/assets/LooseFitPrintedT-shirt.jfif',
-//     },
-
-// ];
-
-// let basket = [];
-
-
-// let generateShop = () => {
-//     return (shop.innerHTML = shopItemData.map((x)=>{
-//         let {id, name, price, desc, img} = x;
-//         return `
-//         <div class="item" id=product-id-${id}>
-//             <img src=${img} alt="" width="219">
-//             <div class="details">
-//                 <h4>${name}</h4>
-//                 <p>${desc}</p>
-//                 <div class="price-quantity">
-//                     <h5>Rs. ${price}</h5>
-//                     <div class="buttons">
-//                         <i class="bi bi-dash" onclick = 'decrement(${id})'></i>
-//                         <div class="quantity" id=${id}>0</div>
-//                         <i class="bi bi-plus" onclick = 'increment(${id})'></i>
-//                     </div>
-//                 </div>
-
-//             </div>
-//         </div>
-//     `;
-//     }).join(""));
-// }
-
-// generateShop();
-
-// let increment = (id) => {
-
-//     let search = basket.find((x)=> x.id === id);
-
-//     if (search === undefined){
-//         basket.push({
-//             id : id,
-//             item : 1
-//         });
-//     }
-//     else {
-//         search.item += 1;
-//     }
-
-//     console.log(basket);
-//     // update(id);
-// }
-// let decrement = (id) => {
-//     let search = basket.find((x)=> x.id === id);
-//     if (search.item === 0) return;
-//     else {
-//         search.item -= 1;
-//     }
-
-//     console.log(basket);
-//     // update(id);
-// }
-// let update = (id) => {
-//     let search = basket.find((x) => x.id === id); 
-//     console.log(search.item);
-// }
-
-
-let shop = document.getElementById('shop');
-
-let shopItemData = [
+const shopItemData = [
     {
-        id : '1',
-        name : 'Regular Fit Linen-blend shirt',
-        price : '1,999.00',
-        desc : 'White/Striped',
-        img : '/assets/hmgoepprod.jfif',
+        id: '1',
+        name: 'Regular Fit Linen-blend shirt',
+        price: '1,999.00',
+        desc: 'White/Striped',
+        img: '/assets/hmgoepprod.jfif',
     },
-
     {
-        id : '2',
-        name : 'Baggy Jeans',
-        price : '2,699.00',
-        desc : 'Light grey',
-        img : '/assets/BaggyJeans.jfif',
+        id: '2',
+        name: 'Baggy Jeans',
+        price: '2,699.00',
+        desc: 'Light grey',
+        img: '/assets/BaggyJeans.jfif',
     },
-
     {
-        id : '3',
-        name : 'Loose Fit Sweatshirt',
-        price : '479.00',
-        desc : 'Light grey',
-        img : '/assets/LooseFitSweatshirt.jfif',
+        id: '3',
+        name: 'Loose Fit Sweatshirt',
+        price: '479.00',
+        desc: 'Light grey',
+        img: '/assets/LooseFitSweatshirt.jfif',
     },
-
     {
-        id : '4',
-        name : 'Loose Fit Printed T-shirt',
-        price : '1,499.00',
-        desc : 'Turquoise/Rick and Morty',
-        img : '/assets/LooseFitPrintedT-shirt.jfif',
+        id: '4',
+        name: 'Loose Fit Printed T-shirt',
+        price: '1,499.00',
+        desc: 'Turquoise/Rick and Morty',
+        img: '/assets/LooseFitPrintedT-shirt.jfif',
     },
-
 ];
 
-let basket = [];
+let basket = JSON.parse(localStorage.getItem('Store Data')) || [];
 
-let generateShop = () => {
-    return (shop.innerHTML = shopItemData.map((x)=>{
-        let {id, name, price, desc, img} = x;
+const generateShop = () => {
+    shop.innerHTML = shopItemData.map((x) => {
+        const { id, name, price, desc, img } = x;
+        const search = basket.find((item) => item.id === id) || { item: 0 };
+
         return `
-        <div class="item" id=product-id-${id}>
-            <img src=${img} alt="" width="219">
+        <div class="item" id="product-id-${id}">
+            <img src="${img}" alt="${name}" width="219">
             <div class="details">
                 <h4>${name}</h4>
                 <p>${desc}</p>
                 <div class="price-quantity">
                     <h5>Rs. ${price}</h5>
                     <div class="buttons">
-                        <i class="bi bi-dash" onclick='decrement(${id})'></i>
-                        <div class="quantity" id="quantity-${id}">0</div>
-                        <i class="bi bi-plus" onclick='increment(${id})'></i>
+                        <i class="bi bi-dash" data-id="${id}"></i>
+                        <div class="quantity" id="quantity-${id}">${search.item}</div>
+                        <i class="bi bi-plus" data-id="${id}"></i>
                     </div>
                 </div>
-
             </div>
         </div>
-    `;
-    }).join(""));
-}
+        `;
+    }).join("");
+};
 
 generateShop();
 
-let increment = (id) => {
-    let search = basket.find((x)=> x.id === id);
+shop.addEventListener('click', (e) => {
+    if (e.target.classList.contains('bi-plus')) {
+        increment(e.target.dataset.id);
+    } else if (e.target.classList.contains('bi-dash')) {
+        decrement(e.target.dataset.id);
+    }
+});
 
-    if (search === undefined){
+const increment = (id) => {
+    const search = basket.find((x) => x.id === id);
+
+    if (search === undefined) {
         basket.push({
-            id : id,
-            item : 1
+            id: id,
+            item: 1
         });
     } else {
         search.item += 1;
     }
 
+    localStorage.setItem('Store Data', JSON.stringify(basket));
     update(id);
     console.log(basket);
-}
+};
 
-let decrement = (id) => {
-    let search = basket.find((x)=> x.id === id);
+const decrement = (id) => {
+    const search = basket.find((x) => x.id === id);
 
     if (search === undefined || search.item === 0) return;
 
@@ -189,11 +96,28 @@ let decrement = (id) => {
         search.item -= 1;
     }
 
+    localStorage.setItem('Store Data', JSON.stringify(basket));
     update(id);
     console.log(basket);
-}
+};
 
-let update = (id) => {
-    let search = basket.find((x) => x.id === id);
+const update = (id) => {
+    const search = basket.find((x) => x.id === id);
     document.getElementById(`quantity-${id}`).innerText = search ? search.item : 0;
-}
+    calculation();
+};
+
+const calculation = () => {
+    // const cartIcon = document.getElementById('cartAmount');
+    // const totalItems = basket.map((x) => x.item).reduce((x, y) => x + y, 0);
+    // const totalPrice = basket.reduce((total, item) => {
+    //     const itemData = shopItemData.find((i) => i.id === item.id);
+    //     return total + (parseFloat(itemData.price.replace(/,/g, '')) * item.item);
+    // }, 0);
+    // cartIcon.innerHTML = `Items: ${totalItems}, Total: Rs. ${totalPrice.toFixed(2)}`;
+
+    const cartIcon = document.getElementById('cartAmount');
+    cartIcon.innerHTML = basket.map((x) => x.item).reduce((x,y) => x+y,0)
+
+};
+calculation();
