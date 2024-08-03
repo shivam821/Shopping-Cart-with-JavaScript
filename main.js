@@ -108,14 +108,6 @@ const update = (id) => {
 };
 
 const calculation = () => {
-    // const cartIcon = document.getElementById('cartAmount');
-    // const totalItems = basket.map((x) => x.item).reduce((x, y) => x + y, 0);
-    // const totalPrice = basket.reduce((total, item) => {
-    //     const itemData = shopItemData.find((i) => i.id === item.id);
-    //     return total + (parseFloat(itemData.price.replace(/,/g, '')) * item.item);
-    // }, 0);
-    // cartIcon.innerHTML = `Items: ${totalItems}, Total: Rs. ${totalPrice.toFixed(2)}`;
-
     const cartIcon = document.getElementById('cartAmount');
     cartIcon.innerHTML = basket.map((x) => x.item).reduce((x,y) => x+y,0)
 
